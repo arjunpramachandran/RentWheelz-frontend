@@ -1,9 +1,9 @@
 // src/Layouts/HostLayout.jsx
 import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import SidebarUser from '../components/user/SidebarUser';
+import SidebarUser from '../components/user/SideBarUser';
 import { useSelector } from 'react-redux';
-import BookingForm from '../components/BookingForm';
+
 
 
 const UserLayout = () => {
