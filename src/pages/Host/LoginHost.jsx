@@ -1,36 +1,42 @@
-import React ,{useState} from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { FaUser, FaLock } from 'react-icons/fa';
-import { api } from '../config/axiosinstance'; 
+import { api } from '../../config/axiosinstance';
 import { Link, useNavigate } from 'react-router-dom';
 
 
 import { useSelector, useDispatch } from 'react-redux'
-import {saveUser , logoutUser , updateUser} from '../app/features/user/userSlice'
+import { saveUser, logoutUser, updateUser } from '../../app/features/user/userSlice'
 
-const Login = () => {
-const [error, setError] = useState(null);
+const LoginHost = () => {
+  const [error, setError] = useState(null);
 
-const dispatch = useDispatch()
- 
-const nav = useNavigate();
-  
-  const postData =async(values)=>{
+  const dispatch = useDispatch()
+
+  const nav = useNavigate();
+
+  const postData = async (values) => {
     try {
       const response = await api({
         method: 'POST',
         url: '/user/login',
         data: values,
       });
-      
+
       const userData = response?.data?.userObject;
+      const token = response?.data?.token;
+     
       
+      if (token) {
+        localStorage.setItem('token', token);
+      }
+
       dispatch(saveUser(userData));
-      return nav(userData.role === 'host' ? '/host/dashboard' : userData.role === 'admin' ? '/admin/adminDashboard' : '/user/userDashboard');
+      nav(userData.role === 'host' ? '/host/dashboard' : userData.role === 'admin' ? '/admin/adminDashboard' : '/user/userDashboard');
     } catch (error) {
       console.log('Error during login:', error);
-      setError(error?.response?.message || 'An error occurred during login');
+      setError(error?.response?.data?.message || 'An error occurred during login');
     }
   }
   const formik = useFormik({
@@ -50,8 +56,8 @@ const nav = useNavigate();
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-cyan-100 to-green-100 px-4">
       <div className="max-w-md w-full bg-white shadow-lg rounded-xl p-8">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Login to Your  Account</h2>
-        
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Login to Your Account</h2>
+
         <form className="space-y-5" onSubmit={formik.handleSubmit}>
           {/* Email */}
           <div>
@@ -113,11 +119,11 @@ const nav = useNavigate();
         </form>
 
         <p className="text-center text-sm text-gray-600 mt-6">
-          Don’t have an account? <Link to='/register' className="text-cyan-600 hover:underline">Sign up </Link>
+          Don’t have an account? <Link to='/host/register' className="text-cyan-600 hover:underline">Sign up as Host</Link>
         </p>
       </div>
     </div>
-  ); 
+  );
 };
 
-export default Login;
+export default LoginHost;

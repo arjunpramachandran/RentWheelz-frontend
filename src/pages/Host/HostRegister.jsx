@@ -4,16 +4,16 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-import { api } from '../config/axiosinstance';
+import { api } from '../../config/axiosinstance';
 
-const Register = ({ role }) => {
+const HostRegister = () => {
 
   const [profilePreview, setProfilePreview] = useState(null);
   const [licensePreview, setLicensePreview] = useState(null);
   const [addressPreview, setAddressPreview] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-
+    const role ="host"; 
   const handleFileChange = (e, field) => {
     const file = e.target.files[0];
     if (file) {
@@ -54,7 +54,7 @@ const Register = ({ role }) => {
       formData.append('licenseProof', values.licenseProof);
       formData.append('addressProof', values.addressProof);
 
-
+     
 
       const res = await api({
         method: "POST",
@@ -86,7 +86,7 @@ const Register = ({ role }) => {
       email: '',
       password: '',
       phone: '',
-      role: 'customer',
+      role: "host" ,
       licenseNumber: '',
       addressProofId: '',
       profilepic: '',
@@ -117,7 +117,7 @@ const Register = ({ role }) => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-green-100 to-cyan-100 p-4">
 
       <div className="max-w-3xl  w-full bg-white shadow-md rounded-xl p-8">
-        <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">Create an Account</h2>
+        <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">Create an Account For Host</h2>
         <div className="space-y-4">
           <form onSubmit={formik.handleSubmit} className="space-y-4 ">
             <div className='md:flex gap-4'>
@@ -183,35 +183,36 @@ const Register = ({ role }) => {
                     <p className="text-red-500 text-sm">{formik.errors.phone}</p>
                   )}
                 </div>
-
-                <div>
-                  <label className="block text-sm font-medium">License Number</label>
-                  <input
-                    name="licenseNumber"
-                    className="input"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.licenseNumber}
-                  />
-                  {formik.touched.licenseNumber && formik.errors.licenseNumber && (
-                    <p className="text-red-500 text-sm">{formik.errors.licenseNumber}</p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium">Address Proof ID</label>
-                  <input
-                    name="addressProofId"
-                    className="input"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.addressProofId}
-                  />
-                  {formik.touched.addressProofId && formik.errors.addressProofId && (
-                    <p className="text-red-500 text-sm">{formik.errors.addressProofId}</p>
-                  )}
-                </div>
-
+                {role === 'customer' && (
+                  <div>
+                    <label className="block text-sm font-medium">License Number</label>
+                    <input
+                      name="licenseNumber"
+                      className="input"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.licenseNumber}
+                    />
+                    {formik.touched.licenseNumber && formik.errors.licenseNumber && (
+                      <p className="text-red-500 text-sm">{formik.errors.licenseNumber}</p>
+                    )}
+                  </div>
+                )}
+                {role !== 'admin' && (
+                  <div>
+                    <label className="block text-sm font-medium">Address Proof ID</label>
+                    <input
+                      name="addressProofId"
+                      className="input"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.addressProofId}
+                    />
+                    {formik.touched.addressProofId && formik.errors.addressProofId && (
+                      <p className="text-red-500 text-sm">{formik.errors.addressProofId}</p>
+                    )}
+                  </div>
+                )}
 
 
               </div>
@@ -238,49 +239,49 @@ const Register = ({ role }) => {
                 </div>
 
                 {/* Address Proof */}
-
-                <div>
-                  <label className="block text-sm font-medium mb-1">Address Proof</label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFileChange(e, 'addressProof')}
-                    className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4
+                {role !== 'admin' && (
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Address Proof</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleFileChange(e, 'addressProof')}
+                      className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4
                     file:rounded-full file:border-0 file:text-sm file:font-semibold
                    file:bg-cyan-50 file:text-cyan-700 hover:file:bg-cyan-100"
-                  />
-                  {addressPreview && (
-                    <img
-                      src={addressPreview}
-                      alt="Preview"
-                      className="mt-2 w-32 h-32 rounded-full object-cover shadow border"
                     />
-                  )}
-                </div>
-
+                    {addressPreview && (
+                      <img
+                        src={addressPreview}
+                        alt="Preview"
+                        className="mt-2 w-32 h-32 rounded-full object-cover shadow border"
+                      />
+                    )}
+                  </div>
+                )}
 
 
                 {/* License Proof */}
-
-                <div>
-                  <label className="block text-sm font-medium mb-1">License Proof</label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFileChange(e, 'licenseProof')}
-                    className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4
+                {role === 'customer' && (
+                  <div>
+                    <label className="block text-sm font-medium mb-1">License Proof</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleFileChange(e, 'licenseProof')}
+                      className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4
                     file:rounded-full file:border-0 file:text-sm file:font-semibold
                    file:bg-cyan-50 file:text-cyan-700 hover:file:bg-cyan-100"
-                  />
-                  {licensePreview && (
-                    <img
-                      src={licensePreview}
-                      alt="Preview"
-                      className="mt-2 w-32 h-32 rounded-full object-cover shadow border"
                     />
-                  )}
-                </div>
-
+                    {licensePreview && (
+                      <img
+                        src={licensePreview}
+                        alt="Preview"
+                        className="mt-2 w-32 h-32 rounded-full object-cover shadow border"
+                      />
+                    )}
+                  </div>
+                )}
 
 
               </div>
@@ -302,7 +303,7 @@ const Register = ({ role }) => {
         </div>
 
         <p className="text-center text-sm text-gray-600 mt-6">
-          Already have an account? <a href="/login" className="text-cyan-600 hover:underline">Login</a>
+          Already have an account? <a href="/host/login" className="text-cyan-600 hover:underline">Login</a>
         </p>
 
       </div>
@@ -310,4 +311,4 @@ const Register = ({ role }) => {
   );
 };
 
-export default Register;
+export default HostRegister;

@@ -1,1 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nanum+Myeongjo&family=Poiret+One&display=swap");
 @import "tailwindcss";
+@plugin "daisyui";
+
+
+
+
+@theme{
+    --font-Montserrat:"Montserrat",sans-serif;
+    --font-Nanum:"Nanum+Myeongjo",sans-serif;
+    --font-Poiret:"Poiret+One";
+
+}
+@layer utilities {
+  .rotate-x-open {
+    transform: perspective(1000px) rotateX(0deg);
+    max-height: 500px;
+    opacity: 1;
+  }
+
+  .rotate-x-close {
+    transform: perspective(1000px) rotateX(-90deg);
+    max-height: 0px;
+    opacity: 0;
+  }
+}
