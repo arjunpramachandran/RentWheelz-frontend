@@ -18,13 +18,13 @@ const RootLayout = () => {
         const res = await api.get('user/checkUser');
         dispatch(saveUser(res.data.user))
       } catch (error) {
-        dispatch(logoutUser)
+        dispatch(logoutUser())
       }
     };
 
 
     checkAuth()
-  },[])
+  },[dispatch])
   return (
     <div className='min-h-screen   flex flex-col'>
      

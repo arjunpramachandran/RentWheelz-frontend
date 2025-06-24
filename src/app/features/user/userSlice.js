@@ -4,13 +4,11 @@ import { createSlice } from '@reduxjs/toolkit'
 
 let initialUser = {};
 let isLoggedIn = false;
+let authChecked = false;
 
 
-const savedSession = JSON.parse(localStorage.getItem('authData'));
-if (savedSession && savedSession.expiry > Date.now()) {
-    initialUser = savedSession.userData;
-    isLoggedIn = true;
-} 
+
+
 
 const initialState = {
     userData: initialUser,
@@ -25,24 +23,13 @@ export const userSlice = createSlice({
         saveUser: (state, action) => {
             state.userData = action.payload
             state.isLoggedIn = true
-
-
-            const expiryTime = Date.now() + 60 * 60 * 1000;
-
-            const sessionData = {
-                userData: action.payload,
-                expiryTime: expiryTime,
-            };
-
-            
-
-
+            state.authChecked = true;
         },
         logoutUser: (state) => {
             
             state.isLoggedIn = false
             state.userData = {}
-           
+           state.authChecked = true;
             
         },
         updateUser: (state, action) => {

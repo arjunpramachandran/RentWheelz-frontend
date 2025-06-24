@@ -5,6 +5,8 @@ import { FiMenu, FiX } from "react-icons/fi";
 import { Link ,useNavigate } from 'react-router-dom';
 import { useSelector ,useDispatch  } from 'react-redux';
 import { logoutUser } from '../../app/features/user/userSlice';
+import { api } from '../../config/axiosinstance';
+
 
 const list = [
   { name: "Home", link: "/" },
@@ -48,7 +50,13 @@ if (userData.role === "customer" && !dynamicList.some(item => item.name === "Use
     setMenuOpen(!menuOpen)
   };
 
-  const handleLogout = () => {
+  const handleLogout =async () => {
+    const res = await api({
+      method:'GET',
+      url:'/user/logout',
+      withCredentials:true
+
+    })
     dispatch(logoutUser());
     setIsOpen(false);
     setMenuOpen(false);

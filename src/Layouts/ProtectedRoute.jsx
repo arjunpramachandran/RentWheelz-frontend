@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Outlet, Navigate } from 'react-router-dom';
+import Loader from '../components/Loader';
 
 const ProtectedRoute = ({allowedRole,children}) => {
-  const {userData,isLoggedIn} = useSelector((state) => state.user);
+  const {userData,isLoggedIn,authChecked} = useSelector((state) => state.user);
  
-console.log('is loged in',isLoggedIn);
+if (!authChecked) {
+    return <Loader/>
+  }
 
  if (!isLoggedIn) {
     return <Navigate to="/login" />;
   }
 
   if (allowedRole && userData.role !== allowedRole) {
-    return <Navigate to="/home" />;
+    return <Navigate to="/" />;
   }
 
-  
-  if (children) {
-    return children;
-  }
 
   return <Outlet />;
 };

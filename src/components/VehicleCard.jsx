@@ -2,6 +2,8 @@ import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { FaGasPump, FaCogs } from 'react-icons/fa';
+import { GiGearStickPattern } from "react-icons/gi";
+import { TbAutomaticGearbox } from "react-icons/tb";
 
 
 import 'swiper/css';
@@ -9,6 +11,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
 
 const VehicleCard = ({ vehicle }) => {
   const { userData,isLoggedIn } = useSelector((state) => state.user);
@@ -32,7 +35,7 @@ const navigate = useNavigate();
           }}
           pagination={{ clickable: true }}
           autoplay={{ delay: 3000, disableOnInteraction: false }}
-          loop
+          loop={vehicle.images.length > 1}
           className="w-full h-56 rounded-lg overflow-hidden"
         >
           {vehicle.images.map((img, index) => (
@@ -71,7 +74,10 @@ const navigate = useNavigate();
             <span>{vehicle.fuel?.toUpperCase()}</span>
           </div>
           <div className="flex items-center gap-1">
-            <FaCogs className="text-green-600" />
+            {(vehicle.transmission==='manual') ? (<GiGearStickPattern className="text-green-600" />):(
+              <TbAutomaticGearbox className="text-green-600"/>
+            )}
+            
             <span>{vehicle.transmission?.toUpperCase()}</span>
           </div>
         </div>
@@ -84,7 +90,7 @@ const navigate = useNavigate();
 
       
       {userData._id === vehicle.ownerId ? (
-        <div className="flex justify-between items-center mt-4 px-1 gap-2">
+        <div onClick={()=>{navigate(`/host/updateVehicle/${vehicle._id}`)}} className="flex justify-between items-center mt-4 px-1 gap-2">
           <button className="w-full bg-cyan-600 text-white py-2 rounded-full hover:bg-cyan-700 transition duration-300 text-sm font-medium">
             Update
           </button>

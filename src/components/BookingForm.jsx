@@ -37,7 +37,7 @@ const BookingForm = () => {
     e.preventDefault()
 
     if (!isLoggedIn) {
-      
+
       navigate('/login')
       return
     }
@@ -47,7 +47,7 @@ const BookingForm = () => {
       return
     }
     dispatch(savedBooking(formData));
-    
+
     navigate('/user/userDashboard')
   };
   return (
@@ -55,7 +55,7 @@ const BookingForm = () => {
 
       <div className="  bg-gradient-to-r from-cyan-500 to-green-400 border-double border-2   z-10  shadow-2xl relative border-cyan-300 p-4 rounded-2xl ">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6 text-center">Book Your Ride</h2>
-        <form onSubmit={handleGo} className=' grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 items-center   gap-4' >
+        <form onSubmit={handleGo} className=' grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-center   gap-4' >
           <div className='w-64' >
             <label className=" block text-sm font-medium text-gray-700 mb-2">
               Pickup Location
@@ -70,20 +70,7 @@ const BookingForm = () => {
               onChange={handleChange}
             />
           </div>
-          <div className='w-64 ' >
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Dropoff Location
-            </label>
-            <input
-              type="text"
-              className=" w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-              placeholder={formData.dropoffLocation ? formData.dropoffLocation : "Enter dropoff location"}
-              name="dropoffLocation"
-              value={formData.dropoffLocation}
-              onChange={handleChange}
-              required
-            />
-          </div>
+        
           <div className='w-64'>
             <label className=" block text-sm font-medium pt-2 text-gray-700 mb-1">
               Pickup Date and Time
@@ -114,22 +101,22 @@ const BookingForm = () => {
             <button type='submit' className="btn btn-circle border-2 bg-accent text-lg w-16 h-16 p-4 hover:bg-cyan-500 hover:text-white transition-colors duration-300">
               GO
             </button>
-            <dialog id="my_modal_1" className="modal">
-              <div className="modal-box">
-                <h3 className="font-bold text-lg">Hello! {userData?.role?.toUpperCase()}</h3>
-                <p className="py-4">{error}</p>
-                <div className="modal-action">
-                  <form method="dialog">
-                   
-                    <button className="btn">Ok</button>
-                  </form>
-                </div>
-              </div>
-            </dialog>
+
 
           </div>
         </form>
+        <dialog id="my_modal_1" className="modal">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Hello! {userData?.role?.toUpperCase()}</h3>
+            <p className="py-4">{error}</p>
+            <div className="modal-action">
+              <form method="dialog">
 
+                <button className="btn">Ok</button>
+              </form>
+            </div>
+          </div>
+        </dialog>
       </div>
 
 

@@ -29,8 +29,8 @@ const nav = useNavigate();
       dispatch(saveUser(userData));
       return nav(userData.role === 'host' ? '/host/dashboard' : userData.role === 'admin' ? '/admin/adminDashboard' : '/user/userDashboard');
     } catch (error) {
-      console.log('Error during login:', error);
-      setError(error?.response?.message || 'An error occurred during login');
+      console.log('Error during login:', error?.response);
+      setError(error?.response?.data?.error || 'An error occurred during login');
     }
   }
   const formik = useFormik({

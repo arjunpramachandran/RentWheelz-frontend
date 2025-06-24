@@ -26,7 +26,7 @@ const Dashboard = () => {
         
 
         const bookingRes = await api.get('/host/hostDashboard', {
-          headers: { Authorization: `Bearer ${token}` }
+          withCredentials:true
         });
 
 

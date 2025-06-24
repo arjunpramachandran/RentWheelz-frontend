@@ -4,23 +4,21 @@ import { api } from '../../config/axiosinstance';
 import VehicleCard from '../../components/VehicleCard'; 
 
 const MyVehicles = () => {
-  const { userData, isLogedin } = useSelector((state) => state.user);
+  const { userData, isLoggedIn } = useSelector((state) => state.user);
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const token = localStorage.getItem('token');
+  
     console.log('userData in MyVehicles:', userData);
-    console.log('isLogedin in MyVehicles:', isLogedin);
-    console.log('token in MyVehicles:', token);
+    console.log('isLogedin in MyVehicles:', isLoggedIn);
+    
     
    
   useEffect(() => {
     const fetchVehicles = async () => {
       try {
         const response = await api.get(`/host/getHostVehicle`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials:true,
         });
         console.log('Fetched vehicles:', response.data.vehicle);
         setVehicles(response.data.vehicle || []);
@@ -33,19 +31,19 @@ const MyVehicles = () => {
     };
       fetchVehicles();
        console.log('vehicles:', vehicles);
-  }, [userData, isLogedin, token]);
+  }, [userData, isLoggedIn]);
  
   
   if (loading) return <p className="text-center mt-10 text-gray-600">Loading vehicles...</p>;
   if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="w-full mx-auto px-4 py-4 flex flex-col  items-center">
       <h2 className="text-2xl font-bold mb-6 text-center">My Vehicles</h2>
       {vehicles.length === 0 ? (
         <p className="text-center text-gray-500">You haven't added any vehicles yet.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 w-auto sm:grid-cols-2 xl:grid-cols-3 gap-6 ">
           {vehicles.map((vehicle) => (
             <VehicleCard key={vehicle._id} vehicle={vehicle} />
           ))}

@@ -12,7 +12,7 @@ const VehicleDetailsPage = () => {
       try {
         const res = await api.get(`user/getVehicle/${id}`);
         setVehicle(res.data);
-        console.log(vehicle);
+        
         
       } catch (err) {
         console.error('Failed to load vehicle:', err);
@@ -26,7 +26,7 @@ const VehicleDetailsPage = () => {
 
   return (
     <div>
-     <VehicleDetails vehicle={vehicle.vehicle} />
+     <VehicleDetails vehicle={vehicle} />
      <div>
        
      </div>

@@ -19,10 +19,10 @@ const VehicleDetails = ({ vehicle }) => {
         transmission,
         pricePerDay,
         images,
-        Driver,
+        driverAvailable,
         discription,
         status,
-        type,
+        rateOfDriver,
         location,
         rating = 4,
     } = vehicle;
@@ -79,13 +79,13 @@ const VehicleDetails = ({ vehicle }) => {
                 <p className="text-gray-600">{discription}</p>
 
                 <div className="grid grid-cols-2 gap-4 text-sm text-gray-700 mt-4">
-                    <div><span className="font-medium">Fuel:</span> {fuel}</div>
-                    <div><span className="font-medium">Transmission:</span> {transmission}</div>
-                    <div><span className="font-medium">Driver:</span> {Driver ? "Yes" : "No"}</div>
-                    <div><span className="font-medium">Status:</span> {status}</div>
-                    <div><span className="font-medium">Type:</span> {type}</div>
-                    {location?.type && (
-                        <div><span className="font-medium">Location:</span> {location.type}</div>
+                    <div><span className="font-medium">Fuel:</span> {fuel.toUpperCase()}</div>
+                    <div><span className="font-medium">Transmission:</span> {transmission.toUpperCase()}</div>
+                    <div><span className="font-medium">Driver:</span> {driverAvailable? "Yes" : "No"}</div>
+                    <div><span className="font-medium">Status:</span> {status.toUpperCase()}</div>
+                    
+                    {location && (
+                        <div><span className="font-medium">Location:</span> {location}</div>
                     )}
                 </div>
                 {!isLoggedIn && (

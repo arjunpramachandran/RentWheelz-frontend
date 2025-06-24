@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useNavigate } from 'react-router-dom';
@@ -39,18 +39,16 @@ const UserBooking = () => {
   };
 
   const minDateTime = getCurrentDateTime();
-  const handleGo = (e) => {
-    e.preventDefault()
-    dispatch(savedBooking(formData));
-    
-
-  }
+  useEffect(()=>{
+     dispatch(savedBooking(formData));
+  },[]);
+  
 
   return (
     <>
 
       <div className="  border-double border-2   z-10  shadow-2xl relative border-cyan-300 p-4 rounded-2xl ">
-        <form onSubmit={handleGo} className=' grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 items-center   gap-4' >
+        <form  className=' grid grid-cols-1  md:grid-cols-2 xl:grid-cols-3 items-center   gap-4' >
           <div className='w-64' >
             <label className=" block text-sm font-medium text-gray-700 mb-2">
               Pickup Location
@@ -65,20 +63,7 @@ const UserBooking = () => {
               onChange={handleChange}
             />
           </div>
-          <div className='w-64 ' >
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Dropoff Location
-            </label>
-            <input
-              type="text"
-              className=" w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-              placeholder={formData.dropoffLocation ? formData.dropoffLocation : "Enter dropoff location"}
-              name="dropoffLocation"
-              value={formData.dropoffLocation}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          
           <div className='w-64'>
             <label className=" block text-sm font-medium pt-2 text-gray-700 mb-1">
               Pickup Date and Time
