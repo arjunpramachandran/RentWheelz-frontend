@@ -101,12 +101,12 @@ const VehicleBooking = () => {
             formData.totalBill = totalCost
             
 
-            const res = await api.post(`user/createBooking/${id}`, formData, {
+            const res = await api.post(`/user/createBooking/${id}`, formData, {
                 withCredentials: true
             })
             if (res) {
                 try {
-                    const response = await api.post('/user/create-checkout-session', formData, { withCredentials: true });
+                    const response = await api.post('user/create-checkout-session', formData, { withCredentials: true });
                     const stripe = await stripePromise;
                     await stripe.redirectToCheckout({ sessionId: response.data.id });
 
@@ -118,8 +118,8 @@ const VehicleBooking = () => {
             }
 
         } catch (error) {
-            console.log('Add Vehicle Error:', error?.response?.data || error.message);
-            alert(error?.response?.data?.error || 'Failed to add vehicle');
+            console.log('Vehicle Booking Error:', error?.response?.data || error.message);
+            alert(error?.response?.data?.error || 'Failed to Booking Vehicle');
         }
 
 
@@ -142,7 +142,7 @@ const VehicleBooking = () => {
     }, [formData.pickupDateTime, formData.dropoffDateTime, isDriverRequired, vehicle]);
 
     const location = useLocation();
-    const query = new URLSearchParams(location.search);
+    const query = new URLSearchParams(window.location.search);
     const isSuccess = query.get('success');
     const isCanceled = query.get('canceled');
     const [showModal, setShowModal] = useState(false);
@@ -163,7 +163,7 @@ const VehicleBooking = () => {
             });
             setShowModal(true);
         }
-    }, [isSuccess, isCanceled]);
+    }, []);
     if (!vehicle) return <Loader />
 
     return (
@@ -278,8 +278,12 @@ const VehicleBooking = () => {
                             description={modalContent.description}
                             onClose={() => {
                                 setShowModal(false);
-                                if(isSuccess) navigate('/user/userDashboard')
-                                else if(isCanceled) navigate(`/user/vehicleBooking/${id}`)
+                                if(isSuccess) {
+                                    navigate('/user/userDashboard')
+                                }
+                                else if(isCanceled) {
+                                    navigate(`/user/vehicleBooking/${id}`)
+                                }
                             }}
                         />
                     )}
