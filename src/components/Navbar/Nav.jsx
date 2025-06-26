@@ -70,7 +70,7 @@ if (userData.role === "customer" && !dynamicList.some(item => item.name === "Use
     <nav className='fixed top-0 left-0  w-full z-50 backdrop-blur-lg bg-white/70 shadow-md'>
 
       <div className='flex   justify-between items-center px-4 py-2 md:px-10 text-black'>
-        <img src="../Logo-New-Trans.png" alt="logo" className='w-20 h-auto' />
+        <img src="/Logo-New-Trans.png" alt="logo" className='w-20 h-auto' />
 
 
         <ul className="hidden lg:flex gap-8 text-[16px] font-Nanum text-teal-700 items-center">
